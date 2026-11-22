@@ -29,6 +29,17 @@ if(BUILD_TESTING)
   # uncomment the line when this package is not in a git repo
   #set(ament_cmake_cpplint_FOUND TRUE)
   ament_lint_auto_find_test_dependencies()
+
+  # Protocol-layer tests (packet parsing, CRC, frame assembly) without hardware.
+  find_package(ament_cmake_gtest REQUIRED)
+  ament_add_gtest(test_lipkg test/test_lipkg.cpp
+    ldlidar_driver/src/dataprocess/lipkg.cpp
+    ldlidar_driver/src/filter/tofbf.cpp
+    TIMEOUT 60)
+  target_include_directories(test_lipkg PRIVATE
+    ldlidar_driver/include/core
+    ldlidar_driver/include/dataprocess
+    ldlidar_driver/include/filter)
 endif()
 
 # Bin and Install
